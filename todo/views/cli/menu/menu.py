@@ -12,7 +12,7 @@ class Menu(metaclass=ABCMeta):
         self._commands: List[Command] = list(self._get_options())
 
     @abstractmethod
-    def _get_options(self) -> Sequence[Command, ...]:
+    def _get_options(self) -> Sequence[Command]:
         pass
 
     def run(self) -> None:
