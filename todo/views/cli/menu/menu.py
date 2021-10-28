@@ -1,48 +1,41 @@
-
-from os import system
-
 from abc import ABCMeta, abstractmethod
-from typing import List
+from typing import List, Sequence
+
+from todo.commands import Command
 
 
 class Menu(metaclass=ABCMeta):
 
-    name = ''
+    _name = ''
 
     def __init__(self):
-        self.commands = []
-        self._set_options()
-
-    def _set_options(self):
-        options = self._get_options()
-        self.commands.extend(options)
+        self._commands: List[Command] = list(self._get_options())
 
     @abstractmethod
-    def _get_options(self):
+    def _get_options(self) -> Sequence[Command, ...]:
         pass
 
-    def run(self):
+    def run(self) -> None:
         self._show()
         option = self._get_option()
-        self.commands[option].execute()
+        self._commands[option].execute()
 
     def _show(self):
-        system('clear')
-        print(self.name)
+        print('\n\n\n')
+        print(self._name)
         print('-' * 50)
-        for i, command in enumerate(self.commands):
-            print('{}) {}'.format(i, command._title))
+        for i, command in enumerate(self._commands):
+            print('{}) {}'.format(i, command.title))
         print('-' * 50)
 
-    def _get_option(self):
+    def _get_option(self) -> int:
         while True:
             try:
-                option = int(input('Digite opción: '))
+                option = int(input('Enter option: '))
             except ValueError:
-                print('Ingrese un número')
+                print('Option must to be a integer')
             else:
-                if 0 <= option < len(self.commands):
+                if 0 <= option < len(self._commands):
                     break
-                print('Opción inválida')
-
+                print('Invalid option')
         return option

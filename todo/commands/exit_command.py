@@ -7,8 +7,8 @@ class ExitCommand(Command):
         super(ExitCommand, self).__init__(title='Exit')
         self._closed = False
 
-    def execute(self):
+    def execute(self) -> None:
         self._closed = True
 
-    def is_closed(self):
+    def is_closed(self) -> bool:
         return self._closed
